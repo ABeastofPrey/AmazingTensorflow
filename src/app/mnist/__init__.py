@@ -20,3 +20,5 @@ from __future__ import print_function
 
 from tensorflow.examples.tutorials.mnist import input_data
 from tensorflow.examples.tutorials.mnist import mnist
+
+__all__ = ['input_data']
