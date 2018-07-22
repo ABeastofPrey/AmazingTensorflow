@@ -51,8 +51,10 @@ def train(mnist):
     # 计算当前batch中所有样列的交叉商平均值。
     cross_entropy_mean = tf.reduce_mean(cross_entropy)
 
+    # 总损失等于交叉商损失和正则化损失的和。
     loss = cross_entropy_mean + tf.add_n(tf.get_collection('losses'))
 
+    ## 使用指数衰减法控制参数的更新速度。
     # 设置指数衰减的学习率。
     learning_rate = tf.train.exponential_decay(
         LEARNING_RATE_BASE,     # 基础学习率，随着迭代的进行，更新变量的时使用的学习率在这个基础上递减。

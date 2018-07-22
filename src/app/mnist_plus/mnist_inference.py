@@ -14,7 +14,7 @@ LAYER1_NODE = 500               # 第一个隐含层设置500个节点
 def get_weight_variable(shape, regularizer):
     weights = tf.get_variable(name='weights', shape=shape, initializer=tf.truncated_normal_initializer(stddev=0.1))
 
-    # 当给出了正则化生成函数时，将当前变量的正则化损失加入到名字为looses的集合。
+    # 当给出了正则化生成函数时，将当前变量的正则化损失加入到名字为losses的集合。
     # 在这里使用了add_to_collection函数将一个张量加入了一个集合，而这个集合的名称为losses。
     # 这是自定义的集合，不在Tensorflow自动管理的集合列表中。
     if regularizer != None:
