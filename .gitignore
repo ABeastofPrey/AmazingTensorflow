@@ -99,4 +99,4 @@ ENV/
 .mypy_cache/
 
 # model results
-./tmp
+/src/app/mnist_plus/tmp/

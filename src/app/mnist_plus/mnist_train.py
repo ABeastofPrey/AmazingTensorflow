@@ -1,4 +1,5 @@
 import os
+import numpy as np
 import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
 
@@ -17,12 +18,13 @@ MODEL_NAME = "model.ckpt"
 
 def train(mnist):
     # 输入输出的placeholder
-    x = tf.placeholder(name='x-input', shape=[None, mnist_inference.INPUT_NODE], dtype=tf.float32)
+    # x = tf.placeholder(name='x-input', shape=[None, mnist_inference.INPUT_NODE], dtype=tf.float32)
+    x = tf.placeholder(name='x-input', shape=[BATCH_SIZE, mnist_inference.IMAGE_SIZE, mnist_inference.IMAGE_SIZE, mnist_inference.NUM_CHANNELS], dtype=tf.float32)
     y_ = tf.placeholder(name='y-input', shape=[None, mnist_inference.OUTPUT_NODE], dtype=tf.float32)
     
     regularizer = tf.contrib.layers.l2_regularizer(REGULARATION_RATE)
     # # 直接用mnist_inference中定义的前向传播过程
-    y = mnist_inference.inference(x, regularizer)
+    y = mnist_inference.inference(x, True, regularizer)
 
     # 定义存储训练论数的变量。
     # 这个变量不需要计算滑动平均值，所以这里指定这个变量为不可训练的变量（trainable=False）。
@@ -82,7 +84,8 @@ def train(mnist):
         for i in range(TRAINING_STEPS):
             # 产生这一轮使用的一个batch的训练数据，并运行训练过程。
             xs, ys = mnist.train.next_batch(BATCH_SIZE)
-            _, loss_value, step = sess.run([train_op, loss, global_step], feed_dict={ x: xs, y_: ys })
+            reshaped_xs = np.reshape(xs, (BATCH_SIZE, mnist_inference.IMAGE_SIZE, mnist_inference.IMAGE_SIZE, mnist_inference.NUM_CHANNELS))
+            _, loss_value, step = sess.run([train_op, loss, global_step], feed_dict={ x: reshaped_xs, y_: ys })
             
             # 每1000轮保存一次模型
             if i % 1000 == 0:

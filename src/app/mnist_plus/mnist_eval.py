@@ -20,7 +20,7 @@ def evaluate(mnist):
 
         # 计算前向传播结果。
         # 因为测试时不关注正则化损失的值，所以这里被用作计算正则化损失的函数为None。
-        y = mnist_inference.inference(x, None)
+        y = mnist_inference.inference(x, False, None)
 
         # 使用前向传播的结果计算正确率。
         # 如果需要对未知的样列进行分类，那么使用tf.argmax(y, 1)就可以得到样列的类别了。
